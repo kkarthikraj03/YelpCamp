@@ -1,7 +1,12 @@
+if (process.env.NODE_ENV !== "production") {
+    require('dotenv').config();
+}
+
 const mongoose = require('mongoose');
 const cities = require('./cities');
 const { places, descriptors } = require('./seedHelper');
 const Campground = require('../models/campground');
+
 
 mongoose.connect(process.env.DB_URL, {
     useNewUrlParser: true,
