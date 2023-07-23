@@ -5,10 +5,17 @@ const Review = require('./models/review');
 
 module.exports.isLoggedIn = (req, res, next) => {
     if (!req.isAuthenticated()) {
-        console.log(req.user);
-        req.session.returnTo = req.originalUrl; 
+        // console.log("REQ USER...",req.user);
+        res.locals.returnTo = req.originalUrl; 
         req.flash('error', 'You must be signed in first!');
         return res.redirect('/login');
+    }
+    next();
+}
+
+module.exports.storeReturnTo = (req, res, next) => {
+    if (req.session.returnTo) {
+        res.locals.returnTo = req.session.returnTo;
     }
     next();
 }
@@ -21,13 +28,6 @@ module.exports.validateCampground = (req, res, next) => {
     } else {
         next();
     }
-}
-
-module.exports.storeReturnTo = (req, res, next) => {
-    if (req.session.returnTo) {
-        res.locals.returnTo = req.session.returnTo;
-    }
-    next();
 }
 
 module.exports.isAuthor = async (req, res, next) => {
