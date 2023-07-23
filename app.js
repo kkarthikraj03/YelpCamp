@@ -49,6 +49,8 @@ app.use(mongoSanitize({
     replaceWith: '_'
 }))
 
+app.set('trust proxy', 1);
+
 const store = MongoStore.create({
     mongoUrl: process.env.DB_URL,
     touchAfter: 24 * 60 * 60,
@@ -65,7 +67,7 @@ const sessionConfig = {
     saveUninitialized: true,
     cookie: {
         httpOnly: true,
-        // secure: true,
+        secure: true,
         expires: Date.now() + 1000 * 60 * 60 * 24 * 7,
         maxAge: 1000 * 60 * 60 * 24 * 7
     }
